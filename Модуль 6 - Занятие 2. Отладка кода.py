@@ -17,8 +17,20 @@ def set():
         try:
             hour = int(rem.split(":")[0])
             minute = int(rem.split(":")[1])
+            if (hour < 0 or hour > 23) and (minute < 0 or minute > 59):     #  Проверка на верность ввода Часов и Минут
+                mb.showerror("Ошибка", "Часы должны быть от 0 до 23, а минуты от 0 до 59")
+                return
+            if hour < 0 or hour > 23:       #  Проверка на верность ввода Часов
+                mb.showerror("Ошибка", "Часы должны быть от 0 до 23")
+                return
+            if minute < 0 or minute > 59:       #  Проверка на верность ввода Минут
+                mb.showerror("Ошибка", "Минуты должны быть от 0 до 59")
+                return
             now = datetime.datetime.now()
             dt = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            if dt.timestamp() <= time.time():       #  Проверка, что указано будещее время, а не прошедшее.
+                mb.showerror("Ошибка", "Указанное время уже прошло")
+                return
             t = dt.timestamp()
             label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}")
         except ValueError:
