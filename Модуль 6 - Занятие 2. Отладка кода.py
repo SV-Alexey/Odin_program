@@ -28,11 +28,12 @@ def set():
                 return
             now = datetime.datetime.now()
             dt = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
-            if dt.timestamp() <= time.time():       #  Проверка, что указано будещее время, а не прошедшее.
-                mb.showerror("Ошибка", "Указанное время уже прошло")
-                return
+            if dt.timestamp() <= time.time():       #  Если время прошло, устанавливаем на следующий день
+                dt = dt + datetime.timedelta(days=1)
+                label.config(text=f"Напоминание установлено на завтра: {hour:02}:{minute:02}")
+            else:
+                label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}")
             t = dt.timestamp()
-            label.config(text=f"Напоминание установлено на: {hour:02}:{minute:02}")
         except ValueError:
             mb.showerror("Ошибка", "Неверный формат времени")
  
