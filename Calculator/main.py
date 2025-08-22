@@ -2,11 +2,6 @@ from tkinter import *
 from tkinter import ttk
 import calculator_logic as c
 
-oper = ''
-num1 = 0
-num2 = 0
-result = 0
-
 
 #  Основная функция
 def calc():
@@ -21,18 +16,22 @@ def calc():
         result = c.divide(num1, num2)
     entry.delete(0, END)
     entry.insert(0, str(result))
+    entry.focus()
 
 
+#  Ввод первого числа
 def enter_number(number):
     entry.insert(END, number)
     entry.focus()
 
 
+#  Очистка поля ввода C
 def clear_entry():
     entry.delete(0, END)
     entry.focus()
 
 
+#  Очистка поля ввода после выбора оперции
 def set_operation(operation):
     global num1
     global oper

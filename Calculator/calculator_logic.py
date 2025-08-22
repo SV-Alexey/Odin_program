@@ -8,7 +8,6 @@ def multiply(a, b):
     return a * b
 
 def divide(a, b):
-    if b != 0:
-        return a / b
-    else:
-        return "На ноль делить нельзя!"
+    if b == 0:
+        raise ZeroDivisionError("На ноль делить нельзя!")
+    return a / b
