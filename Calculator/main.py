@@ -57,6 +57,8 @@ def square_calc(operation):
 def validate_entry():
     e = entry.get()
     txt = ''.join(b for b in e if b in "0123456789.-")
+    if len(txt) > 1 and txt.endswith('-'):      # Запрет на ввод минуса после числа
+        txt = txt[:-1]  
     if e != txt:
         entry.delete(0, END)
         entry.insert(0, txt)
