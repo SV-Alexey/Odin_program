@@ -25,10 +25,12 @@ def calc():
 
 def enter_number(number):
     entry.insert(END, number)
+    entry.focus()
 
 
 def clear_entry():
     entry.delete(0, END)
+    entry.focus()
 
 
 def set_operation(operation):
@@ -37,13 +39,26 @@ def set_operation(operation):
     num1 = float(entry.get())
     oper = operation
     entry.delete(0, END)
+    entry.focus()
 
 
+#  Функция для корректного ввода
+def validate_entry():
+    e = entry.get()
+    txt = ''.join(b for b in e if b in "0123456789.-")
+    if e != txt:
+        entry.delete(0, END)
+        entry.insert(0, txt)
+    
+#  Графический интерфейс
 window = Tk()
 window.title("Калькулятор")
 
+#  Поле ввода
 entry = ttk.Entry()
 entry.grid(row=0, column=0, columnspan=4, sticky='ew')
+entry.focus()
+entry.bind('<KeyRelease>', lambda event: validate_entry())
 
 #  Кнопки с цифрами
 ttk.Button(text='1', command=lambda: enter_number('1')).grid(row=1, column=0)
