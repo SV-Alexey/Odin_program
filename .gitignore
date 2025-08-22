@@ -10,5 +10,5 @@ dist/
 build/
 *.egg-info/
 
-# Files containing 'rext'
+# Files containing 'test'
 *test*

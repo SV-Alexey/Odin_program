@@ -11,3 +11,6 @@ def divide(a, b):
     if b == 0:
         raise ZeroDivisionError("На ноль делить нельзя!")
     return a / b
+
+def square(a):
+    return a ** 2

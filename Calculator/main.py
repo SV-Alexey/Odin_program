@@ -14,6 +14,8 @@ def calc():
         result = c.multiply(num1, num2)
     elif oper == '/':
         result = c.divide(num1, num2)
+    elif oper == 'x²':
+        result = c.square(num1)
     entry.delete(0, END)
     entry.insert(0, str(result))
     entry.focus()
@@ -25,7 +27,7 @@ def enter_number(number):
     entry.focus()
 
 
-#  Очистка поля ввода C
+#  Очистка поля ввода с помощью C
 def clear_entry():
     entry.delete(0, END)
     entry.focus()
@@ -38,6 +40,16 @@ def set_operation(operation):
     num1 = float(entry.get())
     oper = operation
     entry.delete(0, END)
+    entry.focus()
+
+
+#  Отднльная функция для x², что бы сразу выводить результат
+def square_calc(operation):
+    num = float(entry.get())
+    if operation == 'x²':
+        result = c.square(num)
+    entry.delete(0, END)
+    entry.insert(0, str(result))
     entry.focus()
 
 
@@ -78,5 +90,6 @@ ttk.Button(text="+", command=lambda: set_operation('+')).grid(row=1, column=3)
 ttk.Button(text="-", command=lambda: set_operation('-')).grid(row=2, column=3)
 ttk.Button(text="*", command=lambda: set_operation('*')).grid(row=3, column=3)
 ttk.Button(text="/", command=lambda: set_operation('/')).grid(row=4, column=3)
+ttk.Button(text="x²", command=lambda: square_calc('x²')).grid(row=5, column=0)
 
 window.mainloop()
