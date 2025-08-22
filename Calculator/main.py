@@ -17,7 +17,11 @@ def calc():
     elif oper == 'x²':
         result = c.square(num1)
     entry.delete(0, END)
-    entry.insert(0, str(result))
+
+    if result == int(result):       # Убираем .0 если результат целое число
+        entry.insert(0, str(int(result)))
+    else:
+        entry.insert(0, str(result))
     entry.focus()
 
 
@@ -49,7 +53,10 @@ def square_calc(operation):
     if operation == 'x²':
         result = c.square(num)
     entry.delete(0, END)
-    entry.insert(0, str(result))
+    if result == int(result):
+        entry.insert(0, str(int(result)))
+    else:
+        entry.insert(0, str(result))
     entry.focus()
 
 
