@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import calculator_logic as c
-
+from tkinter import messagebox as mb
 
 #  Основная функция
 def calc():
@@ -13,7 +13,13 @@ def calc():
     elif oper == '*':
         result = c.multiply(num1, num2)
     elif oper == '/':
-        result = c.divide(num1, num2)
+        try:        
+            result = c.divide(num1, num2)
+        except ZeroDivisionError:
+            entry.delete(0, END)
+            mb.showerror("Ошибка", "На ноль делить нельзя!")
+            entry.focus()
+            return
     elif oper == 'x²':
         result = c.square(num1)
     entry.delete(0, END)
@@ -25,19 +31,16 @@ def calc():
     entry.focus()
 
 
-#  Ввод первого числа
 def enter_number(number):
     entry.insert(END, number)
     entry.focus()
 
 
-#  Очистка поля ввода с помощью C
 def clear_entry():
     entry.delete(0, END)
     entry.focus()
 
 
-#  Очистка поля ввода после выбора оперции
 def set_operation(operation):
     global num1
     global oper
@@ -47,7 +50,7 @@ def set_operation(operation):
     entry.focus()
 
 
-#  Отднльная функция для x², что бы сразу выводить результат
+#  Отдельная функция для x², что бы сразу выводить результат
 def square_calc(operation):
     num = float(entry.get())
     if operation == 'x²':
