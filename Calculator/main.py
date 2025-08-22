@@ -19,6 +19,8 @@ def calc():
         result = c.multiply(num1, num2)
     elif oper == '/':
         result = c.divide(num1, num2)
+    entry.delete(0, END)
+    entry.insert(0, str(result))
 
 
 def enter_number(number):
@@ -30,7 +32,8 @@ def clear_entry():
 
 
 def set_operation(operation):
-    global num1, oper
+    global num1
+    global oper
     num1 = float(entry.get())
     oper = operation
     entry.delete(0, END)
@@ -56,6 +59,10 @@ ttk.Button(text="0", command=lambda: enter_number('0')).grid(row=4, column=1)
 
 #  Кнопки с операциями
 ttk.Button(text="C", command=clear_entry).grid(row=4, column=0)
-ttk.Button(text="=", command=lambda: calc).grid(row=4, column=2)
+ttk.Button(text="=", command=calc).grid(row=4, column=2)
+ttk.Button(text="+", command=lambda: set_operation('+')).grid(row=1, column=3)
+ttk.Button(text="-", command=lambda: set_operation('-')).grid(row=2, column=3)
+ttk.Button(text="*", command=lambda: set_operation('*')).grid(row=3, column=3)
+ttk.Button(text="/", command=lambda: set_operation('/')).grid(row=4, column=3)
 
 window.mainloop()
