@@ -3,6 +3,7 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 import requests
 from io import BytesIO
+from tkinter import messagebox as mb
 
 # Список доступных тегов
 ALLOWED_TAGS = [
@@ -24,7 +25,7 @@ def load_image(url):
 
 def open_new_window():
     tag = tag_combobox.get()
-    url_with_tag = f'https://cataas.com/cat/{tag}' if tag else 'https://cataas.com/cat'
+    url_with_tag = f'https://cataas.com/cat/{tag}' if tag else mb.showerror("Ошибка", "Выберите тег")
     img = load_image(url_with_tag)
     if img:
         new_window = Toplevel()
@@ -64,6 +65,10 @@ tag_label.pack()
 
 tag_combobox = ttk.Combobox(window, values=ALLOWED_TAGS)
 tag_combobox.pack()
+
+# Кнопка для загрузки с тегом
+tag_button = Button(window, text="Загрузить картинку по тегу", command=open_new_window)
+tag_button.pack(pady=10)
 
 # Кнопка "Случайный котик"
 random_button = Button(window, text="Случайный котик", command=random_cat)
