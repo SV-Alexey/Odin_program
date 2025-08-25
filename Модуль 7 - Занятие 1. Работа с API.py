@@ -6,8 +6,8 @@ from io import BytesIO
 
 # Список доступных тегов
 ALLOWED_TAGS = [
-    'sleep', 'jump', 'smile', 'fight', 'black', 'white', 'red', 'siamese', 'bengal'
-]
+    'sleep', 'jump', 'smile', 'fight', 'black', 'white', 'red', 'siamese', 'bengal']
+
 
 def load_image(url):
     try:
@@ -21,6 +21,7 @@ def load_image(url):
         print(f"Ошибка при загрузке изображения: {e}")
         return None
 
+
 def open_new_window():
     tag = tag_combobox.get()
     url_with_tag = f'https://cataas.com/cat/{tag}' if tag else 'https://cataas.com/cat'
@@ -32,6 +33,7 @@ def open_new_window():
         label = Label(new_window, image=img)
         label.image = img
         label.pack()
+
 
 def random_cat():
     img = load_image('https://cataas.com/cat')
