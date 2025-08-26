@@ -16,6 +16,9 @@ def load_currencies():
         result = mb.askyesno("Ошибка", f"Ошибка загрузки: {e}\n\nПовторить попытку?")
         if result:
             return load_currencies()
+        else:
+            # Резевный список популярных валют при возникновении ошибки выгрузки полного списка
+            return ["BTC", "ETH", "USDT", "XRP", "TONE", "SOL", "TRX", "DOT", "ADA", "USD", "RUB", "EUR"]
 
 
 # Функция для обновления списка в случае ошибки
