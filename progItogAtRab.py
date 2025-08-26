@@ -87,6 +87,6 @@ t_combobox.pack(padx=10, pady=10)
 t_combobox.bind('<KeyRelease>', on_keyrelease)
 
 Button(text="Получить курс обмена", command=exchange).pack(padx=10, pady=5)
-Button(text="Обновить списоки криптовалют", command=retry_load).pack(padx=10, pady=5)
+Button(text="Обновить список криптовалют", command=retry_load).pack(padx=10, pady=5)
 
 window.mainloop()
