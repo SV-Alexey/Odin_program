@@ -8,7 +8,7 @@ from tkinter import ttk
 # Функция для выгрузки списка с API
 def load_currencies():
     try:
-        response = requests.get("https://api.coinbase.com/v2/exchange-rates?currency=BTC")
+        response = requests.get("https://api.coinbase.com/v2/exchange-rates")
         response.raise_for_status()
         data = response.json()
         return sorted(list(data["data"]["rates"].keys()))
@@ -41,7 +41,7 @@ def exchange():
             data = response.json()
             if t_code in data["data"]["rates"]:
                 exchange_rate = float(data["data"]["rates"][t_code])
-                mb.showinfo("Курс обмена", f"Курс обмена {exchange_rate:.2f} {t_code} за 1 {b_code}")
+                mb.showinfo("Курс обмена", f"Курс обмена: 1 {b_code} = {exchange_rate:.2f} {t_code}")
             else:
                 mb.showerror("Ошибка", f"Криптовалюта {t_code} не найдена")
         except Exception as e:
