@@ -43,7 +43,10 @@ def exchange():
                 exchange_rate = float(data["data"]["rates"][t_code])
                 mb.showinfo("Курс обмена", f"Курс обмена: 1 {b_code} = {exchange_rate:.2f} {t_code}")
             else:
-                mb.showerror("Ошибка", f"Криптовалюта {t_code} не найдена")
+                if t_code not in cripto_list:
+                    mb.showerror("Ошибка", f"Криптовалюта {t_code} не найдена")
+                if b_code not in cripto_list:
+                    mb.showerror("Ошибка", f"Криптовалюта {b_code} не найдена")
         except Exception as e:
             mb.showerror("Ошибка", f"Произошла ошибка: {e}.")
     else:
