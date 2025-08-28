@@ -1,24 +1,24 @@
-import requests                                                          # Импорт библиотеки для HTTP-запросов
-import json                                                              # Импорт библиотеки для работы с JSON (не используется)
-from tkinter import *                                                    # Импорт всех элементов библиотеки для создания GUI
-from tkinter import messagebox as mb                                     # Импорт модуля для сообщений (окна с уведомлениями)
-from tkinter import ttk                                                  # Импорт современных виджетов (Combobox, кнопки и т.д.)
+import requests                                                          
+import json                                                             
+from tkinter import *                                                   
+from tkinter import messagebox as mb                                     
+from tkinter import ttk                                                  
 
 
 # Функция для загрузки списка валют с API Coinbase
-def load_currencies():                                                   # Определяем функцию для загрузки списка валют
-    try:                                                                 # Начинаем блок обработки исключений
-        response = requests.get("https://api.coinbase.com/v2/exchange-rates")  # Отправляем GET-запрос к API Coinbase для получения курсов валют
-        response.raise_for_status()                                      # Проверяем статус ответа, вызываем исключение при ошибке HTTP
-        data = response.json()                                           # Преобразуем JSON-ответ в словарь Python
-        return sorted(list(data["data"]["rates"].keys()))               # Извлекаем ключи валют, преобразуем в список и сортируем по алфавиту
-    except Exception as e:                                               # Ловим любые исключения (ошибки сети, JSON и т.д.)
-        result = mb.askyesno("Ошибка", f"Ошибка загрузки: {e}\n\nПовторить попытку?")  # Показываем диалог с вопросом о повторе
-        if result:                                                       # Если пользователь нажал "Да"
-            return load_currencies()                                     # Рекурсивно вызываем функцию снова (повтор попытки)
-        else:                                                            # Если пользователь нажал "Нет"
+def load_currencies():                                                   
+    try:                                                                 
+        response = requests.get("https://api.coinbase.com/v2/exchange-rates")  
+        response.raise_for_status()                                      
+        data = response.json()                                           
+        return sorted(list(data["data"]["rates"].keys()))               
+    except Exception as e:                                               
+        result = mb.askyesno("Ошибка", f"Ошибка загрузки: {e}\n\nПовторить попытку?")  
+        if result:                                                       
+            return load_currencies()                                     
+        else:                                                            
             # Возвращаем резервный список популярных валют
-            return ["BTC", "ETH", "USDT", "XRP", "TONE", "SOL", "TRX", "DOT", "ADA", "USD", "RUB", "EUR"]  # Список основных криптовалют и фиатных валют
+            return ["BTC", "ETH", "USDT", "XRP", "TONE", "SOL", "TRX", "DOT", "ADA", "USD", "RUB", "EUR"]
 
 
 # Функция для обновления списка в случае ошибки
