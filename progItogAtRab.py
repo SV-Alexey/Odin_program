@@ -5,6 +5,20 @@ from tkinter import messagebox as mb
 from tkinter import ttk                                                  
 
 
+lst = ["BTC: Биткоин",
+       "ETH: Эфириум",
+       "USDT: Террор доллар",
+       "XRP: Рипле",
+       "TONE: Тонкоин",
+       "SOL: Солана",
+       "TRX: Трон",
+       "DOT: Полкадот",
+       "ADA: Кардано",
+       "LTC: Литкоин",
+       "USD: Американский долар", 
+       "RUB: Российский рубль",
+       "EUR: Евро",]
+
 # Функция для загрузки списка валют с API Coinbase
 def load_currencies():                                                   
     try:                                                                 
@@ -78,7 +92,15 @@ def on_keyrelease(event):
 # Основное окно программы
 window = Tk()
 window.title("Курс обмена криптовалют")
-window.geometry("400x300")
+cx = (window.winfo_screenwidth() // 2) - (500 // 2)
+cy = (window.winfo_screenheight() // 2) - (300 // 2)
+window.geometry(f"500x300+{cx}+{cy}")
+
+framelstm = Frame(relief="ridge", bd=2)
+framelstm.pack(side=LEFT, anchor=NW, padx=10, pady=10)
+lable = ttk.Label(framelstm, text=f"Популярные валюты:\n{'\n'.join(lst)}")
+lable.pack(padx=10, pady=10)
+
 
 cripto_list = load_currencies()
 
