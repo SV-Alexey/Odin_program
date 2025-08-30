@@ -2,22 +2,35 @@ import requests
 import json                                                             
 from tkinter import *                                                   
 from tkinter import messagebox as mb                                     
-from tkinter import ttk                                                  
+from tkinter import ttk
+import currency_names as cn                                                  
 
 
-lst = ["BTC: Биткоин",
-       "ETH: Эфириум",
-       "USDT: Террор доллар",
-       "XRP: Рипле",
-       "TONE: Тонкоин",
-       "SOL: Солана",
-       "TRX: Трон",
-       "DOT: Полкадот",
-       "ADA: Кардано",
-       "LTC: Литкоин",
-       "USD: Американский долар", 
-       "RUB: Российский рубль",
-       "EUR: Евро",]
+lst = {"BTC" : "Биткоин",
+       "ETH" : "Эфириум",
+       "USDT" : "Террор доллар",
+       "XRP" : "Рипле",
+       "TONE" : "Тонкоин",
+       "SOL" : "Солана",
+       "TRX" : "Трон",
+       "DOT" : "Полкадот",
+       "ADA" : "Кардано",
+       "LTC" : "Литкоин",
+       "USD" : "Американский долар", 
+       "RUB" : "Российский рубль",
+       "EUR" : "Евро"}
+
+def updete_lable_b(event):
+    code = b_combobox.get().upper()
+    name = cn.currency_names.get(code, code)
+    b_lable.config(text=name)
+
+
+def updete_lable_t(event):
+    code = t_combobox.get().upper()
+    name = cn.currency_names.get(code, code)
+    t_lable.config(text=name)
+
 
 # Функция для загрузки списка валют с API Coinbase
 def load_currencies():                                                   
@@ -25,15 +38,17 @@ def load_currencies():
         response = requests.get("https://api.coinbase.com/v2/exchange-rates")  
         response.raise_for_status()                                      
         data = response.json()                                           
-        return sorted(list(data["data"]["rates"].keys()))               
+        # Фильтруем недействительные коды валют
+        all_currencies = list(data["data"]["rates"].keys())
+        valid_currencies = [code for code in all_currencies if code not in ['00', '']]
+        return sorted(valid_currencies)               
     except Exception as e:                                               
         result = mb.askyesno("Ошибка", f"Ошибка загрузки: {e}\n\nПовторить попытку?")  
         if result:                                                       
             return load_currencies()                                     
         else:                                                            
             # Возвращаем резервный список популярных валют
-            return ["BTC", "ETH", "USDT", "XRP", "TONE", "SOL", "TRX", "DOT", "ADA", "USD", "RUB", "EUR"]
-
+            return list(lst.keys())
 
 # Функция для обновления списка в случае ошибки
 def retry_load():
@@ -92,31 +107,41 @@ def on_keyrelease(event):
 # Основное окно программы
 window = Tk()
 window.title("Курс обмена криптовалют")
-cx = (window.winfo_screenwidth() // 2) - (500 // 2)
+cx = (window.winfo_screenwidth() // 2) - (450 // 2)
 cy = (window.winfo_screenheight() // 2) - (300 // 2)
-window.geometry(f"500x300+{cx}+{cy}")
-
-framelstm = Frame(relief="ridge", bd=2)
-framelstm.pack(side=LEFT, anchor=NW, padx=10, pady=10)
-lable = ttk.Label(framelstm, text=f"Популярные валюты:\n{'\n'.join(lst)}")
-lable.pack(padx=10, pady=10)
-
+window.geometry(f"450x350+{cx}+{cy}")
 
 cripto_list = load_currencies()
 
-Label(text="Базовая криптовалюта").pack(padx=10, pady=10)
+frame = Frame(relief="ridge", bd=5)
+frame.pack(side=LEFT, anchor=NW, padx=10, pady=10)
 
-b_combobox = ttk.Combobox(values=cripto_list, state='normal')
+framelst = Frame(frame)
+framelst.pack(side=LEFT, anchor=NW, padx=10)
+lable = ttk.Label(framelst, text=f"Популярные валюты:\n{'\n'.join([f'{code}: {name}' for code, name in lst.items()])}")
+lable.pack(padx=10, pady=10)
+
+frameprog = Frame(frame)
+frameprog.pack()
+Label(frameprog, text="Базовая криптовалюта").pack(padx=10, pady=10)
+b_combobox = ttk.Combobox(frameprog, values=cripto_list, state='normal')
 b_combobox.pack(padx=10, pady=10)
 b_combobox.bind('<KeyRelease>', on_keyrelease)
+b_combobox.bind("<<ComboboxSelected>>", updete_lable_b)
 
-Label(text="Целевая криптовалюта").pack(padx=10, pady=10)
+b_lable = ttk.Label(frameprog)
+b_lable.pack(padx=10, pady=5)
 
-t_combobox = ttk.Combobox(values=cripto_list, state='normal')
+Label(frameprog, text="Целевая криптовалюта").pack(padx=10, pady=10)
+t_combobox = ttk.Combobox(frameprog, values=cripto_list, state='normal')
 t_combobox.pack(padx=10, pady=10)
 t_combobox.bind('<KeyRelease>', on_keyrelease)
+t_combobox.bind("<<ComboboxSelected>>", updete_lable_t)
 
-Button(text="Получить курс обмена", command=exchange).pack(padx=10, pady=5)
-Button(text="Обновить список криптовалют", command=retry_load).pack(padx=10, pady=5)
+t_lable = ttk.Label(frameprog)
+t_lable.pack(padx=10, pady=5)
+
+Button(frameprog, text="Получить курс обмена", command=exchange).pack(padx=10, pady=5)
+Button(frameprog, text="Обновить список криптовалют", command=retry_load).pack(padx=10, pady=5)
 
 window.mainloop()
