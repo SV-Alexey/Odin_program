@@ -3,7 +3,7 @@ import json
 from tkinter import *                                                   
 from tkinter import messagebox as mb                                     
 from tkinter import ttk
-import currency_names as cn                                                  
+import crypt_names as cn                                                
 
 
 lst = {"BTC" : "Биткоин",
@@ -12,7 +12,6 @@ lst = {"BTC" : "Биткоин",
        "XRP" : "Рипле",
        "TONE" : "Тонкоин",
        "SOL" : "Солана",
-       "TRX" : "Трон",
        "DOT" : "Полкадот",
        "ADA" : "Кардано",
        "LTC" : "Литкоин",
@@ -22,13 +21,13 @@ lst = {"BTC" : "Биткоин",
 
 def updete_lable_b(event):
     code = b_combobox.get().upper()
-    name = cn.currency_names.get(code, code)
+    name = cn.crypt_names.get(code, code)
     b_lable.config(text=name)
 
 
 def updete_lable_t(event):
     code = t_combobox.get().upper()
-    name = cn.currency_names.get(code, code)
+    name = cn.crypt_names.get(code, code)
     t_lable.config(text=name)
 
 
